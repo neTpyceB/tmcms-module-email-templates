@@ -30,7 +30,7 @@ class CmsEmailTemplates
             ->addColumn(ColumnData::getInstance('description'))
             ->addColumn(ColumnDelete::getInstance()->href('?p='. P .'&do=_delete&id={%id%}'))
             ->attachFilterForm(
-                FilterForm::getInstance()->setWidth('100%')->setCaption('<a href="?p='. P .'&do=add">Add Template</a>')
+                FilterForm::getInstance()->setWidth('100%')->setCaption('<a class="btn btn-success" href="?p='. P .'&do=add">Add Template</a>')
                     ->addFilter('Key', Text::getInstance('key')->actAs('like'))
             )
         ;
@@ -42,14 +42,14 @@ class CmsEmailTemplates
             'button' => 'Add Template',
             'fields' => [
                 'key',
-                'title' => [
-                    'multilng' => true,
-                    'required' => true
+                'description' => [
+                    'hint' => 'Visible only in Admin panel'
                 ],
                 'content' => [
                     'multilng' => true,
                     'type' => 'textarea',
-                    'edit' => 'wysiwyg'
+                    'edit' => 'wysiwyg',
+                    'rows' => 15
                 ]
             ],
             'data' => $data
