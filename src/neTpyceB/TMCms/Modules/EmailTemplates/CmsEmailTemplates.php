@@ -46,7 +46,7 @@ class CmsEmailTemplates
                     'multilng' => true,
                     'required' => true
                 ],
-                'Content' => [
+                'content' => [
                     'multilng' => true,
                     'type' => 'textarea',
                     'edit' => 'wysiwyg'
@@ -57,6 +57,11 @@ class CmsEmailTemplates
     }
 
     public static function add() {
+        echo BreadCrumbs::getInstance()
+            ->addCrumb('Email templates')
+            ->addCrumb('Add template')
+        ;
+
         echo self::__add_edit_form();
     }
 
