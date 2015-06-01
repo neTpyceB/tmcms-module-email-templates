@@ -1,0 +1,21 @@
+{
+  "name": "neTpyceB/TMCms-module-email-templates",
+  "type": "library",
+  "description": "Module Email Templates for TMCms",
+  "keywords": ["module", "email", "templates"],
+  "homepage": "http://devp.lv/",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Vadims Petrusevs",
+      "email": "info@petrik.lv",
+      "homepage": "http://petrik.lv/",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "neTpyceB\\TMCms": "src"
+    }
+  }
+}
