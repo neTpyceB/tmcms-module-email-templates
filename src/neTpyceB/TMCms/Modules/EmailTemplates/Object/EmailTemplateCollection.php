@@ -1,8 +1,9 @@
 <?php
 namespace neTpyceB\TMCms\Modules\EmailTemplates\Object;
 
-use neTpyceB\TMCms\Modules\CommonObjectCollection;
+use neTpyceB\TMCms\Orm\EntityRepository;
 
-class EmailTemplateCollection extends CommonObjectCollection {
+class EmailTemplateCollection extends EntityRepository {
     protected $db_table = 'm_email_templates';
+    protected $translation_fields = ['content'];
 }

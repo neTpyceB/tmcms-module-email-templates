@@ -1,10 +1,9 @@
 <?php
 namespace neTpyceB\TMCms\Modules\EmailTemplates\Object;
 
-use neTpyceB\TMCms\Modules\CommonObject;
+use neTpyceB\TMCms\Orm\Entity;
 
-class EmailTemplate extends CommonObject {
+class EmailTemplate extends Entity {
     protected $db_table = 'm_email_templates';
-
-    protected $multi_lng_fields = ['content'];
+    protected $translation_fields = ['content'];
 }
