@@ -32,6 +32,11 @@ class ModuleEmailTemplates implements IModule
             if ($template) {
                 $content = $template->getContent();
                 $cacher->set($cache_key, $content);
+            } else {
+                // Create empty with this ket
+                ModuleEmailTemplates::createNewTemplate($key);
+
+                dump('Email template with key "'. $key .'" not found and was auto-created. Please send email again.');
             }
 
         }
@@ -49,11 +54,20 @@ class ModuleEmailTemplates implements IModule
             return;
         }
 
+        dump($body);
+
         Mailer::getInstance()
             ->setSubject($subject)
             ->setSender(Settings::getCommonEmail())
             ->setRecipient($to)
             ->setMessage($body)
             ->send();
+    }
+
+    private static function createNewTemplate($key)
+    {
+        $template = new EmailTemplate();
+        $template->setKey($key);
+        $template->save();
     }
 }
