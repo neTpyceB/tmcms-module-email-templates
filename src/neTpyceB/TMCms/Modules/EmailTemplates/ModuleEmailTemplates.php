@@ -54,8 +54,6 @@ class ModuleEmailTemplates implements IModule
             return;
         }
 
-        dump($body);
-
         Mailer::getInstance()
             ->setSubject($subject)
             ->setSender(Settings::getCommonEmail())
