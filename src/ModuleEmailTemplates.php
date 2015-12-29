@@ -1,14 +1,14 @@
 <?php
 
-namespace neTpyceB\TMCms\Modules\EmailTemplates;
+namespace TMCms\Modules\EmailTemplates;
 
-use neTpyceB\TMCms\Cache\Cacher;
-use neTpyceB\TMCms\Config\Settings;
-use neTpyceB\TMCms\Modules\EmailTemplates\Object\EmailTemplate;
-use neTpyceB\TMCms\Modules\EmailTemplates\Object\EmailTemplateCollection;
-use neTpyceB\TMCms\Modules\IModule;
-use neTpyceB\TMCms\Network\Mailer;
-use neTpyceB\TMCms\Traits\singletonInstanceTrait;
+use TMCms\Cache\Cacher;
+use TMCms\Config\Settings;
+use TMCms\Modules\EmailTemplates\Object\EmailTemplate;
+use TMCms\Modules\EmailTemplates\Object\EmailTemplateCollection;
+use TMCms\Modules\IModule;
+use TMCms\Network\Mailer;
+use TMCms\Traits\singletonInstanceTrait;
 
 defined('INC') or exit;
 

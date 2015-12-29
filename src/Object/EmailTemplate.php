@@ -1,11 +1,11 @@
 <?php
-namespace neTpyceB\TMCms\Modules\EmailTemplates\Object;
+namespace TMCms\Modules\EmailTemplates\Object;
 
-use neTpyceB\TMCms\Orm\Entity;
+use TMCms\Orm\Entity;
 
 /**
  * Class EmailTemplate
- * @package neTpyceB\TMCms\Modules\EmailTemplates\Object
+ * @package TMCms\Modules\EmailTemplates\Object
  *
  * @method string getContent()
  */
