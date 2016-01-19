@@ -58,7 +58,7 @@ class ModuleEmailTemplates implements IModule
             ->setSubject($subject)
             ->setSender(Settings::getCommonEmail())
             ->setRecipient($to)
-            ->setMessage($body)
+            ->setMessage(nl2br($body))
             ->send();
     }
 
