@@ -49,17 +49,24 @@ class ModuleEmailTemplates implements IModule
 
     public static function send($key, $data, $subject, $to)
     {
+        $to = (array)$to;
+
         $body = self::get($key, $data);
         if (!$body) {
             return;
         }
 
-        Mailer::getInstance()
+        $mailer = Mailer::getInstance()
             ->setSubject($subject)
             ->setSender(Settings::getCommonEmail())
-            ->setRecipient($to)
             ->setMessage($body)
-            ->send();
+        ;
+
+        foreach ($to as $to_email) {
+            $mailer->setRecipient($to_email);
+        }
+
+        $mailer->send();
     }
 
     private static function createNewTemplate($key)
