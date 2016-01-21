@@ -59,7 +59,7 @@ class ModuleEmailTemplates implements IModule
         $mailer = Mailer::getInstance()
             ->setSubject($subject)
             ->setSender(Settings::getCommonEmail())
-            ->setMessage($body)
+            ->setMessage(nl2br($body))
         ;
 
         foreach ($to as $to_email) {
