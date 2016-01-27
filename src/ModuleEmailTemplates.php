@@ -31,7 +31,7 @@ class ModuleEmailTemplates implements IModule
             $template = EmailTemplateCollection::findOneEntityByCriteria(['key' => $key]);
             if ($template) {
                 $content = $template->getContent();
-                $cacher->set($cache_key, $content);
+                $cacher->set($cache_key, $content, 60);
             } else {
                 // Create empty with this ket
                 ModuleEmailTemplates::createNewTemplate($key);
