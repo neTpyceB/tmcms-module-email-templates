@@ -54,7 +54,7 @@ class ModuleEmailTemplates implements IModule
         ];
     }
 
-    public static function send($key, $data, $to)
+    public static function send($key, $data, $to, $from_name = NULL)
     {
         $to = (array)$to;
 
@@ -65,7 +65,7 @@ class ModuleEmailTemplates implements IModule
 
         $mailer = Mailer::getInstance()
             ->setSubject($template['subject'])
-            ->setSender(Settings::getCommonEmail())
+            ->setSender(Settings::getCommonEmail(), $from_name)
             ->setMessage($template['body'])
         ;
 
