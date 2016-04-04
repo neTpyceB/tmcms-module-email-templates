@@ -48,10 +48,10 @@ class ModuleEmailTemplates implements IModule
             $subject = str_replace('{%' . $k . '%}', $v, $subject);
         }
 
-        $template->setContent($content);
-        $template->setSubject($subject);
-
-        return $template;
+        return [
+            'body' => $content,
+            'subject' => $subject,
+        ];
     }
 
     public static function send($key, $data, $to)
@@ -64,9 +64,9 @@ class ModuleEmailTemplates implements IModule
         }
 
         $mailer = Mailer::getInstance()
-            ->setSubject($template->getSubject())
+            ->setSubject($template['subject'])
             ->setSender(Settings::getCommonEmail())
-            ->setMessage($template->getContent())
+            ->setMessage($template['body'])
         ;
 
         foreach ($to as $to_email) {
