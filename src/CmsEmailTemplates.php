@@ -11,7 +11,8 @@ use TMCms\HTML\Cms\Column\ColumnEdit;
 use TMCms\HTML\Cms\Filter\Text;
 use TMCms\HTML\Cms\FilterForm;
 use TMCms\Log\App;
-use TMCms\Modules\EmailTemplates\Object\EmailTemplate;
+use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntity;
+use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntityRepository;
 
 defined('INC') or exit;
 
@@ -24,14 +25,22 @@ class CmsEmailTemplates
             ->addCrumb('Email templates')
         ;
 
+        $templates = new EmailTemplateEntityRepository();
+
         echo CmsTable::getInstance()
-            ->addDataSql('SELECT `id`, `key`, `description` FROM `'. ModuleEmailTemplates::$tables['templates'] .'` ORDER BY `key`')
-            ->addColumn(ColumnEdit::getInstance('key')->href('?p='. P .'&do=edit&id={%id%}'))
+            ->addData($templates)
+            ->addColumn(ColumnEdit::getInstance('key')
+                ->setHref('?p='. P .'&do=edit&id={%id%}')
+            )
             ->addColumn(ColumnData::getInstance('description'))
-            ->addColumn(ColumnDelete::getInstance()->href('?p='. P .'&do=_delete&id={%id%}'))
+            ->addColumn(ColumnDelete::getInstance())
             ->attachFilterForm(
-                FilterForm::getInstance()->setWidth('100%')->setCaption('<a class="btn btn-success" href="?p='. P .'&do=add">Add Template</a>')
-                    ->addFilter('Key', Text::getInstance('key')->actAs('like'))
+                FilterForm::getInstance()
+                    ->setWidth('100%')
+                    ->setCaption('<a class="btn btn-success" href="?p='. P .'&do=add">Add Template</a>')
+                    ->addFilter('Key', Text::getInstance('key')
+                        ->actAs('like')
+                    )
             )
         ;
     }
@@ -45,12 +54,17 @@ class CmsEmailTemplates
                 'description' => [
                     'hint' => 'Visible only in Admin panel'
                 ],
+                'subject' => [
+                    'translation' => true,
+                    'help' => 'Use {%params%} replaces',
+                ],
                 'content' => [
-                    'multilng' => true,
+                    'translation' => true,
                     'type' => 'textarea',
                     'edit' => 'wysiwyg',
-                    'rows' => 15
-                ]
+                    'rows' => 15,
+                    'help' => 'Use {%params%} replaces',
+                ],
             ],
             'data' => $data
         ]);
@@ -69,7 +83,7 @@ class CmsEmailTemplates
         $id = (int)$_GET['id'];
         if (!$id) return;
 
-        $template = new EmailTemplate($id);
+        $template = new EmailTemplateEntity($id);
 
         echo BreadCrumbs::getInstance()
             ->addCrumb('Email templates')
@@ -84,7 +98,7 @@ class CmsEmailTemplates
     }
 
     public static function _add() {
-        $template = new EmailTemplate();
+        $template = new EmailTemplateEntity();
         $template->loadDataFromArray($_POST);
         $template->save();
 
@@ -99,7 +113,7 @@ class CmsEmailTemplates
         $id = (int)$_GET['id'];
         if (!$id) return;
 
-        $template = new EmailTemplate($id);
+        $template = new EmailTemplateEntity($id);
         $template->loadDataFromArray($_POST);
         $template->save();
 
@@ -114,7 +128,7 @@ class CmsEmailTemplates
         $id = (int)$_GET['id'];
         if (!$id) return;
 
-        $template = new EmailTemplate($id);
+        $template = new EmailTemplateEntity($id);
         $template->deleteObject();
 
         App::add('Template '. $template->getKey() .'  deleted');

@@ -4,8 +4,8 @@ namespace TMCms\Modules\EmailTemplates;
 
 use TMCms\Cache\Cacher;
 use TMCms\Config\Settings;
-use TMCms\Modules\EmailTemplates\Object\EmailTemplate;
-use TMCms\Modules\EmailTemplates\Object\EmailTemplateCollection;
+use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntity;
+use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntityRepository;
 use TMCms\Modules\IModule;
 use TMCms\Network\Mailer;
 use TMCms\Traits\singletonInstanceTrait;
@@ -25,13 +25,12 @@ class ModuleEmailTemplates implements IModule
         $cache_key = 'module_email_templates_' . $key . '_' . LNG;
         $cacher = Cacher::getInstance()->getDefaultCacher();
 
-        $content = $cacher->get($cache_key);
-        if (!$content) {
-            /** @var EmailTemplate $template */
-            $template = EmailTemplateCollection::findOneEntityByCriteria(['key' => $key]);
+        $template = $cacher->get($cache_key);
+        if (!$template) {
+            /** @var EmailTemplateEntity $template */
+            $template = EmailTemplateEntityRepository::findOneEntityByCriteria(['key' => $key]);
             if ($template) {
-                $content = $template->getContent();
-                $cacher->set($cache_key, $content, 60);
+                $cacher->set($cache_key, $template, 600);
             } else {
                 // Create empty with this ket
                 ModuleEmailTemplates::createNewTemplate($key);
@@ -40,26 +39,34 @@ class ModuleEmailTemplates implements IModule
             }
 
         }
+
+        $content = $template->getContent();
+        $subject = $template->getSubject();
+
         foreach ($data as $k => $v) {
             $content = str_replace('{%' . $k . '%}', $v, $content);
+            $subject = str_replace('{%' . $k . '%}', $v, $subject);
         }
 
-        return $content;
+        $template->setContent($content);
+        $template->setSubject($subject);
+
+        return $template;
     }
 
-    public static function send($key, $data, $subject, $to)
+    public static function send($key, $data, $to)
     {
         $to = (array)$to;
 
-        $body = self::get($key, $data);
-        if (!$body) {
+        $template = self::get($key, $data);
+        if (!$template) {
             return;
         }
 
         $mailer = Mailer::getInstance()
-            ->setSubject($subject)
+            ->setSubject($template->getSubject())
             ->setSender(Settings::getCommonEmail())
-            ->setMessage($body)
+            ->setMessage($template->getContent())
         ;
 
         foreach ($to as $to_email) {
@@ -71,7 +78,7 @@ class ModuleEmailTemplates implements IModule
 
     private static function createNewTemplate($key)
     {
-        $template = new EmailTemplate();
+        $template = new EmailTemplateEntity();
         $template->setKey($key);
         $template->save();
     }
