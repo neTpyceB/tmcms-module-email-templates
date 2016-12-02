@@ -2,14 +2,14 @@
   "name": "devp-eu/tmcms-module-email-templates",
   "type": "library",
   "description": "Module Email Templates for TMCms",
-  "keywords": ["module", "email", "templates"],
-  "homepage": "http://devp.lv/",
+  "keywords": ["module", "email", "templates", "TMCms"],
+  "homepage": "http://devp.eu/",
   "license": "proprietary",
   "authors": [
     {
       "name": "Vadims Petrusevs",
-      "email": "info@devp.lv",
-      "homepage": "http://devp.lv/",
+      "email": "info@devp.eu",
+      "homepage": "http://devp.eu/",
       "role": "Developer"
     }
   ],
