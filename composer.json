@@ -2,7 +2,11 @@
   "name": "devp-eu/tmcms-module-email-templates",
   "type": "library",
   "description": "Module Email Templates for TMCms",
-  "keywords": ["module", "email", "templates", "TMCms"],
+  "keywords": [
+    "module",
+    "email templates",
+    "TMCms"
+  ],
   "homepage": "http://devp.eu/",
   "license": "proprietary",
   "authors": [
@@ -13,6 +17,10 @@
       "role": "Developer"
     }
   ],
+  "require": {
+    "devp-eu/tmcms-core": "dev-master",
+    "devp-eu/tmcms-panel": "dev-master"
+  },
   "autoload": {
     "psr-4": {
       "TMCms\\Modules\\EmailTemplates\\": "src"
