@@ -21,8 +21,9 @@ class CmsEmailTemplates
 {
 
     public function _default() {
-        echo BreadCrumbs::getInstance()
+        BreadCrumbs::getInstance()
             ->addCrumb('Email templates')
+            ->addAction('Add Template', '?p='. P .'&do=add')
         ;
 
         $templates = new EmailTemplateEntityRepository();
@@ -36,8 +37,6 @@ class CmsEmailTemplates
             ->addColumn(ColumnDelete::getInstance())
             ->attachFilterForm(
                 FilterForm::getInstance()
-                    ->setWidth('100%')
-                    ->setCaption('<a class="btn btn-success" href="?p='. P .'&do=add">Add Template</a>')
                     ->addFilter('Key', Text::getInstance('key')
                         ->actAs('like')
                     )
@@ -47,6 +46,7 @@ class CmsEmailTemplates
 
     private static function __add_edit_form($data = []) {
         return CmsFormHelper::outputForm(ModuleEmailTemplates::$tables['templates'], [
+            'title' => $data ? __('Edit template') : __('Add template'),
             'action' => '?p='. P .'&do=_add',
             'button' => 'Add Template',
             'fields' => [
@@ -71,7 +71,7 @@ class CmsEmailTemplates
     }
 
     public static function add() {
-        echo BreadCrumbs::getInstance()
+        BreadCrumbs::getInstance()
             ->addCrumb('Email templates')
             ->addCrumb('Add template')
         ;
@@ -85,7 +85,7 @@ class CmsEmailTemplates
 
         $template = new EmailTemplateEntity($id);
 
-        echo BreadCrumbs::getInstance()
+        BreadCrumbs::getInstance()
             ->addCrumb('Email templates')
             ->addCrumb('Update template')
             ->addCrumb($template->getKey())
