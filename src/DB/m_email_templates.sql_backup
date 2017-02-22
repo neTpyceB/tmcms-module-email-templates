@@ -1,1 +1,0 @@
-CREATE TABLE `m_email_templates` (  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,  `key` varchar(50) NOT NULL,  `description` text NOT NULL,  `content` int(10) unsigned NOT NULL COMMENT 'translation',  PRIMARY KEY (`id`),  UNIQUE KEY `key` (`key`)) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8

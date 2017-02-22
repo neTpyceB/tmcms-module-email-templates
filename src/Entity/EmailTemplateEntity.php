@@ -1,11 +1,11 @@
 <?php
-namespace TMCms\Modules\EmailTemplates\Object;
+namespace TMCms\Modules\EmailTemplates\Entity;
 
 use TMCms\Orm\Entity;
 
 /**
  * Class EmailTemplate
- * @package TMCms\Modules\EmailTemplates\Object
+ * @package TMCms\Modules\EmailTemplates\Entity
  *
  * @method string getContent()
  * @method string getSubject()

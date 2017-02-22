@@ -1,5 +1,5 @@
 <?php
-namespace TMCms\Modules\EmailTemplates\Object;
+namespace TMCms\Modules\EmailTemplates\Entity;
 
 use TMCms\Orm\EntityRepository;
 

@@ -11,8 +11,8 @@ use TMCms\HTML\Cms\Column\ColumnEdit;
 use TMCms\HTML\Cms\Filter\Text;
 use TMCms\HTML\Cms\FilterForm;
 use TMCms\Log\App;
-use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntity;
-use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntityRepository;
+use TMCms\Modules\EmailTemplates\Entity\EmailTemplateEntity;
+use TMCms\Modules\EmailTemplates\Entity\EmailTemplateEntityRepository;
 
 defined('INC') or exit;
 
@@ -20,28 +20,14 @@ defined('INC') or exit;
 class CmsEmailTemplates
 {
 
-    public function _default() {
+    public static function add()
+    {
         BreadCrumbs::getInstance()
             ->addCrumb('Email templates')
-            ->addAction('Add Template', '?p='. P .'&do=add')
+            ->addCrumb('Add template')
         ;
 
-        $templates = new EmailTemplateEntityRepository();
-
-        echo CmsTable::getInstance()
-            ->addData($templates)
-            ->addColumn(ColumnEdit::getInstance('key')
-                ->setHref('?p='. P .'&do=edit&id={%id%}')
-            )
-            ->addColumn(ColumnData::getInstance('description'))
-            ->addColumn(ColumnDelete::getInstance())
-            ->attachFilterForm(
-                FilterForm::getInstance()
-                    ->addFilter('Key', Text::getInstance('key')
-                        ->actAs('like')
-                    )
-            )
-        ;
+        echo self::__add_edit_form();
     }
 
     private static function __add_edit_form($data = []) {
@@ -68,15 +54,6 @@ class CmsEmailTemplates
             ],
             'data' => $data
         ]);
-    }
-
-    public static function add() {
-        BreadCrumbs::getInstance()
-            ->addCrumb('Email templates')
-            ->addCrumb('Add template')
-        ;
-
-        echo self::__add_edit_form();
     }
 
     public static function edit() {
@@ -136,5 +113,28 @@ class CmsEmailTemplates
         Messages::sendMessage('Template deleted');
 
         back();
+    }
+
+    public function _default()
+    {
+        BreadCrumbs::getInstance()
+            ->addCrumb('Email templates')
+            ->addAction('Add Template', '?p=' . P . '&do=add');
+
+        $templates = new EmailTemplateEntityRepository();
+
+        echo CmsTable::getInstance()
+            ->addData($templates)
+            ->addColumn(ColumnEdit::getInstance('key')
+                ->setHref('?p=' . P . '&do=edit&id={%id%}')
+            )
+            ->addColumn(ColumnData::getInstance('description'))
+            ->addColumn(ColumnDelete::getInstance())
+            ->attachFilterForm(
+                FilterForm::getInstance()
+                    ->addFilter('Key', Text::getInstance('key')
+                        ->actAs('like')
+                    )
+            );
     }
 }

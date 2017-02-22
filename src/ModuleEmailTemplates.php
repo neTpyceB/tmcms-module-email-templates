@@ -4,8 +4,8 @@ namespace TMCms\Modules\EmailTemplates;
 
 use TMCms\Cache\Cacher;
 use TMCms\Config\Settings;
-use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntity;
-use TMCms\Modules\EmailTemplates\Object\EmailTemplateEntityRepository;
+use TMCms\Modules\EmailTemplates\Entity\EmailTemplateEntity;
+use TMCms\Modules\EmailTemplates\Entity\EmailTemplateEntityRepository;
 use TMCms\Modules\IModule;
 use TMCms\Network\Mailer;
 use TMCms\Traits\singletonInstanceTrait;
@@ -19,6 +19,31 @@ class ModuleEmailTemplates implements IModule
     public static $tables = [
         'templates' => 'm_email_templates'
     ];
+
+    public static function send($key, $data, $to, $from_name = NULL, $attached_file_paths = [])
+    {
+        $to = (array)$to;
+
+        $template = self::get($key, $data);
+        if (!$template) {
+            return;
+        }
+
+        $mailer = Mailer::getInstance()
+            ->setSubject($template['subject'])
+            ->setSender(Settings::getCommonEmail(), $from_name)
+            ->setMessage($template['body']);
+
+        foreach ($to as $to_email) {
+            $mailer->setRecipient($to_email);
+        }
+
+        foreach ($attached_file_paths as $file) {
+            $mailer->addAttachment(basename($file), file_get_contents($file));
+        }
+
+        $mailer->send();
+    }
 
     public static function get($key, $data = array())
     {
@@ -52,28 +77,6 @@ class ModuleEmailTemplates implements IModule
             'body' => $content,
             'subject' => $subject,
         ];
-    }
-
-    public static function send($key, $data, $to, $from_name = NULL)
-    {
-        $to = (array)$to;
-
-        $template = self::get($key, $data);
-        if (!$template) {
-            return;
-        }
-
-        $mailer = Mailer::getInstance()
-            ->setSubject($template['subject'])
-            ->setSender(Settings::getCommonEmail(), $from_name)
-            ->setMessage($template['body'])
-        ;
-
-        foreach ($to as $to_email) {
-            $mailer->setRecipient($to_email);
-        }
-
-        $mailer->send();
     }
 
     private static function createNewTemplate($key)
