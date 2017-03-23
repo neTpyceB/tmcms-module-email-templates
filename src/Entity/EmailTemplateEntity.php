@@ -10,6 +10,7 @@ use TMCms\Orm\Entity;
  * @method string getContent()
  * @method string getSubject()
  * @method $this setContent(string $content)
+ * @method $this setDescription(string $description)
  * @method $this setKey(string $key)
  * @method $this setSubject(string $subject)
  */

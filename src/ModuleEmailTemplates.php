@@ -45,7 +45,7 @@ class ModuleEmailTemplates implements IModule
         $mailer->send();
     }
 
-    public static function get($key, $data = array())
+    public static function get($key, $data = [])
     {
         $cache_key = 'module_email_templates_' . $key . '_' . LNG;
         $cacher = Cacher::getInstance()->getDefaultCacher();
@@ -58,7 +58,7 @@ class ModuleEmailTemplates implements IModule
                 $cacher->set($cache_key, $template, 600);
             } else {
                 // Create empty with this ket
-                ModuleEmailTemplates::createNewTemplate($key);
+                ModuleEmailTemplates::createNewTemplate($key, $data);
 
                 dump('Email template with key "'. $key .'" not found and was auto-created. Please send email again.');
             }
@@ -79,10 +79,13 @@ class ModuleEmailTemplates implements IModule
         ];
     }
 
-    private static function createNewTemplate($key)
+    private static function createNewTemplate($key, $data)
     {
         $template = new EmailTemplateEntity();
         $template->setKey($key);
+        if ($data) {
+            $template->setDescription('Possible keys are: ' . implode(', ', array_keys($data)));
+        }
         $template->save();
     }
 }
