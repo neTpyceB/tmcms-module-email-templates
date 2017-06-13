@@ -39,7 +39,7 @@ class ModuleEmailTemplates implements IModule
         }
 
         foreach ($attached_file_paths as $file) {
-            $mailer->addAttachment(basename($file));
+            $mailer->addAttachment($file);
         }
 
         $mailer->send();
