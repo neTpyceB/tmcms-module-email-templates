@@ -26,6 +26,13 @@ class ModuleEmailTemplates implements IModule
 
         $template = self::get($key, $data);
         if (!$template) {
+            $mailer = Mailer::getInstance()
+                ->setSubject('No template')
+                ->setSender(Settings::getCommonEmail(), $from_name)
+                ->setMessage('No template with key :' . $key)
+                ->setRecipient('grundmanweb@gmail.com');
+            $mailer->send();
+            dump('No template');
             return;
         }
 
