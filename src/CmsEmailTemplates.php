@@ -70,7 +70,7 @@ class CmsEmailTemplates
 
         echo self::__add_edit_form($template->getAsArray())
             ->setAction('?p='. P .'&do=_edit&id='. $id)
-            ->setSubmitButton('Update Template')
+            ->setButtonSubmit('Update Template')
         ;
     }
 
