@@ -2,6 +2,7 @@
 namespace TMCms\Modules\EmailTemplates\Entity;
 
 use TMCms\Orm\EntityRepository;
+use TMCms\Orm\TableStructure;
 
 class EmailTemplateEntityRepository extends EntityRepository {
     protected $translation_fields = ['content', 'subject'];
@@ -14,10 +15,10 @@ class EmailTemplateEntityRepository extends EntityRepository {
                 'type' => 'varchar',
             ],
             'subject' => [
-                'type' => 'translation',
+                'type' => TableStructure::FIELD_TYPE_TRANSLATION,
             ],
             'content' => [
-                'type' => 'translation',
+                'type' => TableStructure::FIELD_TYPE_TRANSLATION,
             ],
         ],
     ];
