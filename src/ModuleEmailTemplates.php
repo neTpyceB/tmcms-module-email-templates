@@ -38,7 +38,7 @@ class ModuleEmailTemplates implements IModule
 
         $mailer = Mailer::getInstance()
             ->setSubject($template['subject'])
-            ->setSender(Settings::getCommonEmail(), $from_name)
+            ->setSender(Settings::getCommonEmail(), (string)$from_name)
             ->setMessage($template['body']);
 
         foreach ($to as $to_email) {
@@ -62,7 +62,7 @@ class ModuleEmailTemplates implements IModule
             /** @var EmailTemplateEntity $template */
             $template = EmailTemplateEntityRepository::findOneEntityByCriteria(['key' => $key]);
             if ($template) {
-                $cacher->set($cache_key, $template, 600);
+//                $cacher->set($cache_key, $template, 600);
             } else {
                 // Create empty with this ket
                 ModuleEmailTemplates::createNewTemplate($key, $data);
