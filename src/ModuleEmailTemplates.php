@@ -53,7 +53,7 @@ class ModuleEmailTemplates implements IModule
             /** @var EmailTemplateEntity $template */
             $template = EmailTemplateEntityRepository::findOneEntityByCriteria(['key' => $key]);
             if ($template) {
-                $cacher->set($cache_key, $template, 600);
+//                $cacher->set($cache_key, $template, 600); // TODO fix PDO serialize issue
             } else {
                 // Create empty with this ket
                 ModuleEmailTemplates::createNewTemplate($key, $data);
