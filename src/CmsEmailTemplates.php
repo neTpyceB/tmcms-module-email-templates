@@ -31,7 +31,7 @@ class CmsEmailTemplates
     }
 
     private static function __add_edit_form($data = []) {
-        return CmsFormHelper::outputForm(ModuleEmailTemplates::$tables['templates'], [
+        return CmsFormHelper::outputForm(EmailTemplateEntity::getInstance()->getDbTableName(), [
             'title' => $data ? __('Edit template') : __('Add template'),
             'action' => '?p='. P .'&do=_add',
             'button' => 'Add Template',

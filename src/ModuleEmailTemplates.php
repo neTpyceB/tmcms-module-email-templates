@@ -16,25 +16,16 @@ class ModuleEmailTemplates implements IModule
 {
     use singletonInstanceTrait;
 
-    public static $tables = [
-        'templates' => 'm_email_templates'
-    ];
-
-    public static function send($key, $data, $to, $from_name = NULL, $attached_file_paths = [])
+    /**
+     * @param string $key
+     * @param array $data
+     * @param array $to
+     * @param string $from_name
+     * @param array $attached_file_pat
+     */
+    public static function send(string $key, array $data = [], array $to = [], string $from_name = '', array $attached_file_paths = [])
     {
-        $to = (array)$to;
-
         $template = self::get($key, $data);
-        if (!$template) {
-            $mailer = Mailer::getInstance()
-                ->setSubject('No template')
-                ->setSender(Settings::getCommonEmail(), $from_name)
-                ->setMessage('No template with key :' . $key)
-                ->setRecipient('grundmanweb@gmail.com');
-            $mailer->send();
-            dump('No template');
-            return;
-        }
 
         $mailer = Mailer::getInstance()
             ->setSubject($template['subject'])
@@ -62,14 +53,13 @@ class ModuleEmailTemplates implements IModule
             /** @var EmailTemplateEntity $template */
             $template = EmailTemplateEntityRepository::findOneEntityByCriteria(['key' => $key]);
             if ($template) {
-//                $cacher->set($cache_key, $template, 600);
+                $cacher->set($cache_key, $template, 600);
             } else {
                 // Create empty with this ket
                 ModuleEmailTemplates::createNewTemplate($key, $data);
 
                 dump('Email template with key "'. $key .'" not found and was auto-created. Please send email again.');
             }
-
         }
 
         $content = $template->getContent();
