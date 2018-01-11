@@ -23,9 +23,11 @@ class ModuleEmailTemplates implements IModule
      * @param string $from_name
      * @param array $attached_file_pat
      */
-    public static function send(string $key, array $data = [], array $to = [], string $from_name = '', array $attached_file_paths = [])
+    public static function send(string $key, array $data = [], $to = [], string $from_name = '', array $attached_file_paths = [])
     {
         $template = self::get($key, $data);
+
+        $to = (array)$to;
 
         $mailer = Mailer::getInstance()
             ->setSubject($template['subject'])
